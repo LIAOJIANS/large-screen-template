@@ -13,3 +13,10 @@ export function echartScatter<T>(): Promise<T> {
     method: 'get'
   }) as Promise<T>
 }
+
+export function echartMap<T>(): Promise<T> {
+  return request<T>({
+    url: 'page_map',
+    method: 'get'
+  }) as Promise<T>
+}

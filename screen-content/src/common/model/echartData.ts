@@ -1,185 +1,60 @@
 
-export const mapData = {
-  points: [
-    {
-      name: '郑州',
-      coordinate: [0.48, 0.35],
-      halo: {
-        show: true,
-      },
-      // icon: {
-      //   src: '/img/flylineChart/mapCenterPoint.png',
-      //   width: 30,
-      //   height: 30
-      // },
-      text: {
-        show: false
-      }
-    },
-    {
-      name: '新乡',
-      coordinate: [0.52, 0.23]
-    },
-    {
-      name: '焦作',
-      coordinate: [0.43, 0.29]
-    },
-    {
-      name: '开封',
-      coordinate: [0.59, 0.35]
-    },
-    {
-      name: '许昌',
-      coordinate: [0.53, 0.47]
-    },
-    {
-      name: '平顶山',
-      coordinate: [0.45, 0.54]
-    },
-    {
-      name: '洛阳',
-      coordinate: [0.36, 0.38]
-    },
-    {
-      name: '周口',
-      coordinate: [0.62, 0.55],
-      halo: {
-        show: true,
-        color: '#8378ea'
-      }
-    },
-    {
-      name: '漯河',
-      coordinate: [0.56, 0.56]
-    },
-    {
-      name: '南阳',
-      coordinate: [0.37, 0.66],
-      halo: {
-        show: true,
-        color: '#37a2da'
-      }
-    },
-    {
-      name: '信阳',
-      coordinate: [0.55, 0.81]
-    },
-    {
-      name: '驻马店',
-      coordinate: [0.55, 0.67]
-    },
-    {
-      name: '济源',
-      coordinate: [0.37, 0.29]
-    },
-    {
-      name: '三门峡',
-      coordinate: [0.20, 0.36]
-    },
-    {
-      name: '商丘',
-      coordinate: [0.76, 0.41]
-    },
-    {
-      name: '鹤壁',
-      coordinate: [0.59, 0.18]
-    },
-    {
-      name: '濮阳',
-      coordinate: [0.68, 0.17]
-    },
-    {
-      name: '安阳',
-      coordinate: [0.59, 0.10]
-    }
-  ],
-  lines: [
-    {
-      source: '新乡',
-      target: '郑州'
-    },
-    {
-      source: '焦作',
-      target: '郑州'
-    },
-    {
-      source: '开封',
-      target: '郑州'
-    },
-    {
-      source: '周口',
-      target: '郑州',
-      color: '#fb7293',
-      width: 2
-    },
-    {
-      source: '南阳',
-      target: '郑州',
-      color: '#fb7293',
-      width: 2
-    },
-    {
-      source: '济源',
-      target: '郑州'
-    },
-    {
-      source: '三门峡',
-      target: '郑州'
-    },
-    {
-      source: '商丘',
-      target: '郑州'
-    },
-    {
-      source: '鹤壁',
-      target: '郑州'
-    },
-    {
-      source: '濮阳',
-      target: '郑州'
-    },
-    {
-      source: '安阳',
-      target: '郑州'
-    },
-    {
-      source: '许昌',
-      target: '南阳',
-      color: '#37a2da'
-    },
-    {
-      source: '平顶山',
-      target: '南阳',
-      color: '#37a2da'
-    },
-    {
-      source: '洛阳',
-      target: '南阳',
-      color: '#37a2da'
-    },
-    {
-      source: '驻马店',
-      target: '周口',
-      color: '#8378ea'
-    },
-    {
-      source: '信阳',
-      target: '周口',
-      color: '#8378ea'
-    },
-    {
-      source: '漯河',
-      target: '周口',
-      color: '#8378ea'
-    }
-  ],
-  // icon: {
-  //   show: true,
-  //   src: '/img/flylineChart/mapPoint.png'
-  // },
-  text: {
-    show: true,
-  },
-  k: 0.5,
-  bgImgSrc: '/map.jpg' // 图要自己UI出图，这里盗用官网的map.jpg
+export interface IPoint {
+  name?: string, // 点名称
+  coordinate?: number[], // 点坐标
+  halo?: IHalo, // 点光晕配置
+  text?: IText, // 点文本配置
+  icon?: IIcon // 点图标配置
+}
+
+export interface IFlyline {
+  source?: string, // 飞线起点的点名称
+  target?: string, // 飞线终点的点名称
+  width?: number, // 飞线宽度
+  color?: string, // 飞线颜色
+  orbitColor?: string, // 飞线轨迹颜色
+  duration?: number[], // 飞线动画时长
+  radius?: number // 飞线显示半径
+}
+
+export interface IHalo {
+  show?: boolean, // 是否显示光晕
+  duration?: number[], // 光晕动画时长
+  color?: string, // 光晕颜色
+  radius?: number // 光晕最大半径
+}
+
+export interface IText {
+  show?: boolean, // 是否显示点名称
+  offset?: number[], // 名称位置偏移
+  color?: string, // 名称颜色
+  fontSize?: number // 名称文字大小
+}
+
+export interface IIcon {
+  show?: boolean, // 是否显示点图标
+  src?: string, // 图标src
+  width?: number, // 图标宽度
+  height?: number // 图标高度
+}
+
+export interface ILine {
+  line?: number, // 飞线宽度
+  color?: string, // 飞线颜色
+  orbitColor?: string, // 轨迹颜色
+  duration?: number[], // 飞线动画时长
+  radius?: number, // 飞线显示半径
+}
+
+export interface IEchartMapData {
+  points?: IPoint[], // 飞线点
+  lines?: IFlyline[], // 飞线
+  halo?: IHalo, // 全局光晕配置
+  text?: IText, // 全局文本配置
+  icon?: IIcon, // 全局图标配置
+  line?: ILine, // 全局飞线配置
+  bgImgSrc?: string, // 背景图src
+  k?: number, // 飞线收束程度
+  curvature?: number, // 飞线曲率
+  relative?: boolean // 使用相对坐标
 }

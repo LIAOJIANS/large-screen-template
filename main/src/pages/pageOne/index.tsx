@@ -26,7 +26,9 @@ import {
 // import { IUniversalContext } from '../../module/universalContext'
 // import { ILodingView } from '../../module/loading'
 
-interface IPageOneProps extends RouteComponentProps {}
+interface IPageOneProps extends RouteComponentProps {
+  [key:string]:any
+}
 interface IPageOneState {
   tableDataOne: [],
   tableOneHeader: string[],
@@ -149,6 +151,8 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   }
 
   render() {
+    console.log(this.props.location)
+
     return (
       <div className='service-site-efficiency mt-3 pl-2 pr-2 dispaly-space'>
         <div className='site-left'>

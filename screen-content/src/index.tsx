@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serverWorker';
-
 import './static/index.css';
+import { IEchartMapData } from './common/model/echartData'
+
+let echartMapData:IEchartMapData = {}
 
 // import * as serviceWorker from './serviceWorker';
 function render() {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <App echartMapData={ echartMapData } />
     </React.StrictMode>,
     document.getElementById('react-root')
   );
@@ -28,21 +30,20 @@ function render() {
 
 //  @ts-ignore
 if (!window.__POWERED_BY_QIANKUN__) {
-  console.log(1);
-  
   render()
 }
 
 
 // 子组件协议就ok
-export async function bootstrap (props: any) {
+export async function bootstrap (props: { echartMapData: IEchartMapData }) {
   console.log('react app bootstraped', props);
+  echartMapData = props.echartMapData
 }
-export async function mount (props: any) {
+export async function mount (props: { echartMapData: IEchartMapData }) {
   console.log('react app mount', props);
   render();
 }
-export async function unmount (props: any) {
+export async function unmount (props: { echartMapData: IEchartMapData }) {
   console.log('react app unmount', props);
   ReactDOM.unmountComponentAtNode(document.getElementById('react-root') as HTMLElement);
 }
