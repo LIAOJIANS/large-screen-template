@@ -1,0 +1,37 @@
+.header-top {
+
+  .title {
+    width: 60%;
+    line-height: 60px;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    > div {
+      width: 50%;
+    }
+  }
+
+  .nav-item {
+    padding: 12px 45px;
+    margin-right: 20px;
+
+    background: #092650;
+    border-radius: 10px;
+    border: 1px solid #0d386c;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: #6eb0dc;
+  }
+
+  .nav-item-active {
+    font-size: 18px;
+    color: #fff;
+
+    background: #22558d;
+    border: 1px solid #679dc5;
+    display: inline-block;
+    box-shadow: 0 -20px 20px -4px rgba(255, 255, 255, 0.2) inset;
+  }
+}
