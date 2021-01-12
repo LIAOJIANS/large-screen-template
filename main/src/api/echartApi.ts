@@ -20,3 +20,10 @@ export function echartMap<T>(): Promise<T> {
     method: 'get'
   }) as Promise<T>
 }
+
+export function echartGraph<T>(): Promise<T> {
+  return request<T>({
+    url: 'page_graph',
+    method: 'get'
+  }) as Promise<T>
+}

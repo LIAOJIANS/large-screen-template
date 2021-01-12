@@ -17,16 +17,6 @@ function render() {
     document.getElementById('react-root')
   );
 }
-// if (window.__POWERED_BY_QIANKUN__) { // 动态添加public path
-//   // webpack的路径被赋值
-//   // eslint-disable-next-line no-undef
-//   __webpack_public_path__ = window.__INJECTED_PUBLIC_PATH_BY_QIANKUN__;
-// }
-
-// console.log((window as any).__POWERED_BY_QIANKUN__);
-
-//  @ts-ignore
-// console.log(window.__POWERED_BY_QIANKUN__);  
 
 //  @ts-ignore
 if (!window.__POWERED_BY_QIANKUN__) {
@@ -43,9 +33,10 @@ export async function mount (props: { echartMapData: IEchartMapData }) {
   console.log('react app mount', props);
   render();
 }
-export async function unmount (props: { echartMapData: IEchartMapData }) {
+export async function unmount (props: { echartMapData: IEchartMapData, [key: string]: any }) {
   console.log('react app unmount', props);
-  ReactDOM.unmountComponentAtNode(document.getElementById('react-root') as HTMLElement);
+  const { container } = props;
+  ReactDOM.unmountComponentAtNode((container ? container.querySelector('#react-root') : document.getElementById('react-root') ) as HTMLElement);
 }
 
 serviceWorker.unregister();

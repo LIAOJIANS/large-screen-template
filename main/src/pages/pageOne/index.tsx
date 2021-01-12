@@ -9,13 +9,17 @@ import {
   ScrollRankingBoard
 } from '@jiaminghi/data-view-react'
 import { InterInitEchartContxt, InitEchartContext } from '../../module/echarts'
-// import { ILodingView, LoadingContext } from '../../module/loading'
 import { echartLine, echartScatter } from '../../api/echartApi'
 import { tableDataOne, rankingDataOne } from '../../api/tableApi'
 import { searchData } from '../../api/pageOneApi'
 import CommonTabel from '../../components/table/table'
 import { ITableConfig, ITabelEventParameter } from '../../common/model/ICommonTable'
 import { AbstractComponent } from '../../module/AbstractComponent'
+import { connect } from 'react-redux'
+import { Dispatch } from 'redux'
+import { ILoadingState, IOptions } from '../../store/reducers/loadingStateRedc'
+import { LOADING_STATE } from '../../store/activeTypes'
+import { ICombinedState } from '../../store/reducers'
 
 import {
   IEcharts,
@@ -23,10 +27,10 @@ import {
   ISelectData,
   IScrollRankingBoard
 } from './model'
-// import { IUniversalContext } from '../../module/universalContext'
-// import { ILodingView } from '../../module/loading'
 
 interface IPageOneProps extends RouteComponentProps {
+  setLoadingState: (loadingInfo: IOptions) => void
+  loadingState: IOptions
   [key:string]:any
 }
 interface IPageOneState {
@@ -41,11 +45,6 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   static contextType = InitEchartContext
   context!: InterInitEchartContxt;
 
-  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
-  // public constructor(props: IPageOneProps, private backend: IUniversalContext) {
-  //   super(props)
-  // }
-
   state: IPageOneState = {
     tableDataOne: [],
     tableOneHeader: ['表头1', '表头2', '表头3', '表头4'],
@@ -55,30 +54,31 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   }
 
   componentDidMount() {
+    this.props.setLoadingState({ msg: '正在加载', isShowLoading: true })
     this.fetchData()
   }
 
-  fetchData() {
-    // this.backend.loadShow({ msg: 'loading', isShowLoading: true })
-    echartLine<IEcharts>()?.then(res => {
+  async fetchData() {
+    await echartLine<IEcharts>()?.then(res => {
       this.context.initEchart('echart-ser', this.context.lineDataFormat(res))
-    })
+    }).catch(e => this.closeLoadingShow())
 
-    echartScatter<IEcharts>()?.then(res => {
+    await echartScatter<IEcharts>()?.then(res => {
       this.context.initEchart('echart-ses', this.context.scatterDataFormat(res))
-    })
+    }).catch(e => this.closeLoadingShow())
 
-    tableDataOne<[]>()?.then(res => {
+    await tableDataOne<[]>()?.then(res => {
       this.setState({ tableDataOne: res })
-    })
+    }).catch(e => this.closeLoadingShow())
 
-    searchData<ISelectData[]>()?.then(res => {
+    await searchData<ISelectData[]>()?.then(res => {
       this.setState({ selectData: res })
-    })
+    }).catch(e => this.closeLoadingShow())
 
-    rankingDataOne<IScrollRankingBoardData[]>()?.then(res => {
+    await rankingDataOne<IScrollRankingBoardData[]>()?.then(res => {
       this.setState({ rankingData: res })
-    })
+    }).catch(e => this.closeLoadingShow())
+    this.closeLoadingShow()
   }
 
   tableOne() {
@@ -151,8 +151,7 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   }
 
   render() {
-    console.log(this.props.location)
-
+    // console.log(this.props.location)
     return (
       <div className='service-site-efficiency mt-3 pl-2 pr-2 dispaly-space'>
         <div className='site-left'>
@@ -212,4 +211,14 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   }
 }
 
-export default withRouter(PageOne)
+// const mapStateToProps = (state: ICombinedState): ILoadingState => ({ loadingState: state.loadingStore.loadingState })
+
+const mapStateToProps = (state: ICombinedState): ILoadingState => state.loadingStore
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setLoadingState: (loadingInfo: IOptions) => dispatch({ type: LOADING_STATE, payload: loadingInfo })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(PageOne))

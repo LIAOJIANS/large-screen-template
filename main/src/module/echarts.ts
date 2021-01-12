@@ -1,9 +1,12 @@
 import React from 'react'
 import echarts from 'echarts/lib/echarts'
+// import * as gexf from 'echarts/extension-src/dataTool/gexf'
+
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/scatter'
 import 'echarts/lib/chart/graph'
+
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
@@ -13,6 +16,7 @@ import 'echarts/lib/component/legendScroll'
 import { EChartsFullOption } from 'echarts/lib/option'
 import { ScatterSeriesOption } from 'echarts/lib/chart/scatter/ScatterSeries'
 import { IEcharts, ILineSeries, IScatterSeries } from '../pages/pageOne/model'
+import { ILinks, ICategories, INodes } from '../common/model/IGrah'
 
 // enum LineType {
 //   LINE = 1 << 1,
@@ -32,6 +36,11 @@ export interface InterInitEchartContxt {
   scatterSeriesObj: () => ScatterSeriesOption
   scatterSeriesTitleFormat: (srcData: IScatterSeries[]) => string[]
   scatterSeriesDataFormat: (srcData: IScatterSeries[]) => ScatterSeriesOption[]
+
+  graphOptionsFormat: (echartData: any) => EChartsFullOption
+  graphDataFormat: (echartData: any) => { links: any[], nodes: any[], categories: ICategories[] }
+  grahNodeDataFormat: (nodes: any) => INodes[]
+  grahLinksDataFormat: (links: any) => ILinks[]
 }
 
 export class EchartContext implements InterInitEchartContxt {
@@ -227,6 +236,96 @@ export class EchartContext implements InterInitEchartContxt {
       },
       series: echartData.data && this.scatterSeriesDataFormat(echartData.data)
     }
+  }
+
+  graphOptionsFormat(echartData: any): EChartsFullOption {
+    const { links, nodes, categories } = this.graphDataFormat(echartData)
+    return {
+      grid: {
+        top: '20%',
+        left: '3%',
+        right: '12%',
+        bottom: '3%',
+        containLabel: true
+      },
+      title: {
+        text: 'Les Miserables',
+        subtext: 'Circular layout',
+        top: 'bottom',
+        left: 'right'
+      },
+      tooltip: {},
+      animationDurationUpdate: 1500,
+      animationEasingUpdate: 'quinticInOut',
+      series: [
+        {
+          name: 'Les Miserables',
+          type: 'graph',
+          layout: 'circular',
+          circular: {
+            rotateLabel: true
+          },
+          data: nodes,
+          links: links,
+          categories: categories,
+          roam: true,
+          label: {
+            position: 'right',
+            formatter: '{b}'
+          },
+          lineStyle: {
+            color: 'source',
+            curveness: 0.3
+          }
+        }
+      ]
+    }
+  }
+
+  graphDataFormat(echartData: any): { links: any[], nodes: any[], categories: ICategories[] } {
+    const nodes = echartData.gexf.graph[0].nodes[0].node
+    const categories = []
+    for (let i = 0; i < 9; i++) {
+      categories[i] = {
+        name: '类目' + i
+      }
+    }
+    return {
+      links: this.grahLinksDataFormat(echartData.gexf.graph[0].edges[0].edge),
+      nodes: this.grahNodeDataFormat(nodes),
+      categories
+    }
+  }
+
+  grahNodeDataFormat(nodes: any): INodes[] {
+    let newNodes: any[] = []
+    nodes.forEach((c:any) => {
+      newNodes = [...newNodes, {
+        attributes: { [c.attvalues[0].attvalue[0].$.for]: Number(c.attvalues[0].attvalue[0].$.value) },
+        id: Number(c.$.id),
+        name: c.$.label,
+        category: Number(c.attvalues[0].attvalue[0].$.value),
+        itemStyle: null,
+        symbolSize: Number(c['viz:size'][0].$.value) / 1.5,
+        label: { normal: { show: (Number(c['viz:size'][0].$.value) / 1.5) > 10 }},
+        value: Number(c['viz:size'][0].$.value),
+        x: Number(c['viz:position'][0].$.x),
+        y: Number(c['viz:position'][0].$.y)
+      }]
+    })
+    return newNodes
+  }
+
+  grahLinksDataFormat(links: any): ILinks[] {
+    let newLinks: any[] = []
+    links.forEach((c:any) => {
+      newLinks = [...newLinks, {
+        ...c.$,
+        lineStyle: { normal: {}},
+        name: ''
+      }]
+    })
+    return newLinks
   }
 }
 

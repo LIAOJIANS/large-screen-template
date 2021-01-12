@@ -6,25 +6,16 @@ import { Loading, FullScreenContainer } from '@jiaminghi/data-view-react'
 import { registerMicroApps, start } from 'qiankun'
 import { echartMap } from './api/echartApi'
 import { IEchartMapData } from './common/model/ICommon'
-// import {
-//   UniversalContext,
-//   Universal,
-//   IUniversalContext
-// } from './module/universalContext'
-export interface IOptions {
-  msg: any,
-  isShowLoading: boolean
-}
+import { connect } from 'react-redux'
+import { ILoadingState, IOptions } from './store/reducers/loadingStateRedc'
+import { ICombinedState } from './store/reducers'
 
-class App extends React.Component<{}, {
-  store: IOptions,
+class App extends React.Component<{
+  loadingState: IOptions
+}, {
   echartMapData: IEchartMapData
 }> {
   state = {
-    store: {
-      msg: '',
-      isShowLoading: false
-    },
     echartMapData: {}
   }
 
@@ -46,31 +37,25 @@ class App extends React.Component<{}, {
     start({ prefetch: false }) // 启动，配置all则主应用start后即开始预加载所有微应用静态资源
   }
 
-  // loadShow(options: IOptions) {
-  //   this.setState({
-  //     store: options
-  //   })
-  // }
-
   render() {
-    // const universalContext: IUniversalContext = new Universal()
-
+    const { isShowLoading, msg } = this.props.loadingState
     return (
       <div className='App'>
-        {/* <UniversalContext.Provider value={ universalContext }> */}
         <FullScreenContainer style={{ background: ' radial-gradient(ellipse closest-side, #125886, #000e25)' }}>
-          { this.state.store.isShowLoading && <Loading>{ this.state.store.msg }</Loading> }
+          { isShowLoading ? <Loading>{ msg }</Loading> : null }
           <HeaderTop
             headerTitle='大屏公用模板'
             currentTime={ new Date().getTime() }
           />
           <RouterLink />
         </FullScreenContainer>
-        {/* </UniversalContext.Provider> */}
-
       </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = (state: ICombinedState): ILoadingState => state.loadingStore
+export default connect(
+  mapStateToProps,
+  {}
+)(App)

@@ -8,14 +8,13 @@ export interface IOptions {
 }
 
 export class AbstractComponent<
-  P,
+  P extends {
+    setLoadingState: (loadingInfo: IOptions) => void
+  },
   S,
   SS = any
 > extends React.PureComponent<P, S, SS> {
-  // static contextType = LoadingContext
-  // context!: InterInitEchartContxt
-
-  showLoading(options: IOptions) {
-
+  closeLoadingShow() {
+    this.props.setLoadingState({ msg: '', isShowLoading: false })
   }
 }
