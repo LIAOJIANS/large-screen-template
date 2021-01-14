@@ -58,3 +58,8 @@ export interface IEchartMapData {
   curvature?: number, // 飞线曲率
   relative?: boolean // 使用相对坐标
 }
+
+export interface IScrollRankingBoardData {
+  name: string,
+  value: number
+}

@@ -20,13 +20,12 @@ import { Dispatch } from 'redux'
 import { ILoadingState, IOptions } from '../../store/reducers/loadingStateRedc'
 import { LOADING_STATE } from '../../store/activeTypes'
 import { ICombinedState } from '../../store/reducers'
-
 import {
   IEcharts,
-  IScrollRankingBoardData,
   ISelectData,
   IScrollRankingBoard
 } from './model'
+import { IScrollRankingBoardData } from '../../common/model/ICommon'
 
 interface IPageOneProps extends RouteComponentProps {
   setLoadingState: (loadingInfo: IOptions) => void
@@ -153,7 +152,7 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   render() {
     // console.log(this.props.location)
     return (
-      <div className='service-site-efficiency mt-3 pl-2 pr-2 dispaly-space'>
+      <div className='service-site-efficiency mt-2 pl-2 pr-2 dispaly-space'>
         <div className='site-left'>
           <BorderBox11 className='site-left-acceptance' title='xxxxxx' style={{ height: '280px' }}>
             <div className='seach-if dispaly-flex' style={{ padding: '5px 10px 0px 10px' }}>

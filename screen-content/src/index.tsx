@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serverWorker';
-import './static/index.css';
+// import './static/index.css';
 import { IEchartMapData } from './common/model/echartData'
 
 let echartMapData:IEchartMapData = {}

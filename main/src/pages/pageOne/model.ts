@@ -1,5 +1,6 @@
 import { LineSeriesOption } from 'echarts/lib/chart/line/LineSeries'
 import { EChartsFullOption } from 'echarts/lib/option'
+import { IScrollRankingBoardData } from '../../common/model/ICommon'
 
 export interface IScatterSeries {
   id: string | null,
@@ -26,11 +27,6 @@ export interface IEcharts extends EChartsFullOption {
 export interface ISelectData {
   label: string,
   val: any
-}
-
-export interface IScrollRankingBoardData {
-  name: string,
-  value: number
 }
 
 export interface IScrollRankingBoard {

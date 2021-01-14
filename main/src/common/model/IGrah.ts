@@ -7,7 +7,7 @@ export interface ILinks extends GraphEdgeItemOption {
 
 export interface INodes {
   attributes: { [key: string]: any },
-  id: number,
+  id: string,
   name: string | null,
   category: number,
   itemStyle: null | any,

@@ -23,7 +23,7 @@ export default class RouterLink extends React.Component<IRouterProps, IRouterSta
   routerList = () => {
     const menus = this.state.menus
     return (
-      <div className='nav dispaly-content-center mt-3'>
+      <div className='nav dispaly-content-center mt-1'>
         {
           menus?.map(i => <NavLink key={ i.path } to={ i.path } className='nav-item' activeClassName='nav-item-active'>{ i.title }</NavLink>)
         }

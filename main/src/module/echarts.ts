@@ -248,13 +248,6 @@ export class EchartContext implements InterInitEchartContxt {
         bottom: '3%',
         containLabel: true
       },
-      title: {
-        text: 'Les Miserables',
-        subtext: 'Circular layout',
-        top: 'bottom',
-        left: 'right'
-      },
-      tooltip: {},
       animationDurationUpdate: 1500,
       animationEasingUpdate: 'quinticInOut',
       series: [
@@ -270,8 +263,7 @@ export class EchartContext implements InterInitEchartContxt {
           categories: categories,
           roam: true,
           label: {
-            position: 'right',
-            formatter: '{b}'
+            position: 'right'
           },
           lineStyle: {
             color: 'source',
@@ -299,10 +291,10 @@ export class EchartContext implements InterInitEchartContxt {
 
   grahNodeDataFormat(nodes: any): INodes[] {
     let newNodes: any[] = []
-    nodes.forEach((c:any) => {
+    nodes.forEach((c:any, i: number) => {
       newNodes = [...newNodes, {
         attributes: { [c.attvalues[0].attvalue[0].$.for]: Number(c.attvalues[0].attvalue[0].$.value) },
-        id: Number(c.$.id),
+        id: c.$.id,
         name: c.$.label,
         category: Number(c.attvalues[0].attvalue[0].$.value),
         itemStyle: null,
@@ -313,6 +305,7 @@ export class EchartContext implements InterInitEchartContxt {
         y: Number(c['viz:position'][0].$.y)
       }]
     })
+
     return newNodes
   }
 

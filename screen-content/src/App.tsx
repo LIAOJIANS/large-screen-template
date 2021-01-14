@@ -1,7 +1,7 @@
 import React from 'react';
 import { IEchartMapData } from './common/model/echartData'
 import { FlylineChartEnhanced } from '@jiaminghi/data-view-react'
-import './App.css'
+// import './App.css'
 
 class App extends React.Component<{
   echartMapData: IEchartMapData

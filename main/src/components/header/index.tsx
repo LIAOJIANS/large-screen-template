@@ -23,7 +23,7 @@ export default class HeaderTop extends React.Component<IHeaderTopProps, IHeaderT
           <div className='title dispaly-content-center'>
             <div>
               <p style={{ marginBottom: 0 }}>{ this.props.headerTitle }</p>
-              <Decoration5 style={{ width: '100%', height: '40px' }} />
+              <Decoration5 style={{ width: '100%', height: '30px' }} />
             </div>
           </div>
         </div>
