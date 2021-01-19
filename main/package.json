@@ -35,7 +35,9 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "new": "plop",
+    "publish": "node upload.server.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -82,7 +84,9 @@
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-plugin-react": "^7.22.0",
     "node-sass": "^4.14.1",
+    "plop": "^2.7.4",
     "react-router": "^5.2.0",
-    "sass-loader": "^7.3.1"
+    "sass-loader": "^7.3.1",
+    "scp2": "^0.5.0"
   }
 }

@@ -241,13 +241,6 @@ export class EchartContext implements InterInitEchartContxt {
   graphOptionsFormat(echartData: any): EChartsFullOption {
     const { links, nodes, categories } = this.graphDataFormat(echartData)
     return {
-      grid: {
-        top: '20%',
-        left: '3%',
-        right: '12%',
-        bottom: '3%',
-        containLabel: true
-      },
       animationDurationUpdate: 1500,
       animationEasingUpdate: 'quinticInOut',
       series: [
@@ -298,8 +291,11 @@ export class EchartContext implements InterInitEchartContxt {
         name: c.$.label,
         category: Number(c.attvalues[0].attvalue[0].$.value),
         itemStyle: null,
-        symbolSize: Number(c['viz:size'][0].$.value) / 1.5,
-        label: { normal: { show: (Number(c['viz:size'][0].$.value) / 1.5) > 10 }},
+        symbolSize: Number(c['viz:size'][0].$.value) / 3,
+        label: { normal: { show: (Number(c['viz:size'][0].$.value) / 3) > 8, textStyle: {
+          color: '#5FEBF2',
+          fontWeight: 700
+        }}},
         value: Number(c['viz:size'][0].$.value),
         x: Number(c['viz:position'][0].$.x),
         y: Number(c['viz:position'][0].$.y)

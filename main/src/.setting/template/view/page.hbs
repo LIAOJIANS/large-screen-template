@@ -1,0 +1,42 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { Dispatch } from 'redux'
+
+import './{{ pageName }}.scss'
+import { AbstractComponent } from '../../module/AbstractComponent'
+import { LOADING_STATE } from '../../store/activeTypes'
+import { ICombinedState } from '../../store/reducers'
+import { ILoadingState, IOptions } from '../../store/reducers/loadingStateRedc'
+import {} from '../../api/{{ pageName }}Api'
+import {} from './model'
+
+interface I{{ toUpperFirstName }}Props extends RouteComponentProps {
+  setLoadingState: (loadingInfo: IOptions) => void
+}
+
+interface I{{ toUpperFirstName }}State {
+}
+
+class {{ toUpperFirstName }} extends AbstractComponent<I{{ toUpperFirstName }}Props, I{{ toUpperFirstName }}State> {
+  componentDidMount() {
+    
+  }
+
+  render() {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = (state: ICombinedState): ILoadingState => state.loadingStore
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setLoadingState: (loadingInfo: IOptions) => dispatch({ type: LOADING_STATE, payload: loadingInfo })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter({{ toUpperFirstName }}))

@@ -2,6 +2,8 @@ import { IScrollRankingBoardData } from '../../common/model/ICommon'
 
 export interface ISquare extends IScrollRankingBoardData {}
 
+export interface IProgress extends IScrollRankingBoardData {}
+
 export interface ICapsule {
   data?: IScrollRankingBoardData[],
   colors?: string[],
@@ -12,4 +14,5 @@ export interface ICapsule {
 export interface IAddressRank {
   square: ISquare[],
   capsule: IScrollRankingBoardData[]
+  progress: IProgress[]
 }

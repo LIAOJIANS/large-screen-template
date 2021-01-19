@@ -1,7 +1,8 @@
 
 const data = {
   square: [],
-  capsule: []
+  capsule: [],
+  progress: []
 }
 
 let i = 0
@@ -15,6 +16,12 @@ while(i < 5) {
     name: `南阳${i + 1}`,
     value: Math.floor(Math.random(0, 1) * 1000)
   })
+
+  data.progress.push({
+    name: '平遥古城',
+    value: Math.floor(Math.random(0, 1) * 100)
+  })
+
   i++
 }
 

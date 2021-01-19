@@ -18,12 +18,13 @@ import {
 } from '../../api/pageTwoApi'
 import { echartGraph } from '../../api/echartApi'
 import { InitEchartContext, InterInitEchartContxt } from '../../module/echarts'
-import { IAddressRank, ICapsule, ISquare } from './model'
+import { IAddressRank, ICapsule, IProgress, ISquare } from './model'
 import { IScrollRankingBoardData } from '../../common/model/ICommon'
+import { Progress } from 'antd'
 
 interface ISerialSortrProps {
-  dataList: ICapsule | ISquare[],
-  showType: 'capsule' | 'square'
+  dataList: ICapsule | ISquare[] | IProgress[],
+  showType: 'capsule' | 'square' | 'progress'
 }
 
 class SerialSortr extends React.Component<ISerialSortrProps, {}> {
@@ -39,18 +40,55 @@ class SerialSortr extends React.Component<ISerialSortrProps, {}> {
     )
   }
 
-  render() {
+  progressDom(dataList: IProgress[]) {
+    return (
+      dataList?.map((c, i) => (
+        <div className='dispaly-center' key={ i } style={{ marginTop: 10, width: 230 }} >
+          <span className='serial_number'>{ i + 1 }</span>
+          <p style={{ whiteSpace: 'nowrap', margin: '0 15px' }}>{ c.name }</p>
+          <Progress
+            percent={ c.value }
+            status='active'
+            showInfo={ false }
+            strokeColor={{
+              '0%': '#14D9FC',
+              '100%': '#6CFABE'
+            }}
+          />
+          <span className='pl-1'>{ c.value }</span>
+        </div>
+      ))
+    )
+  }
+
+  // eslint-disable-next-line no-undef
+  renderDom(): JSX.Element[] | JSX.Element {
+    // eslint-disable-next-line no-undef
+    let dom: JSX.Element[] | JSX.Element = <div />
     const { dataList, showType } = this.props
+    switch (showType) {
+      case 'square':
+        dom = this.squareDom?.(this.props.dataList as ISquare[])
+        break
+      case 'capsule':
+        dom = <CapsuleChart
+          config={ dataList }
+          style={{ width: '300px', height: '170px' }}
+        />
+        break
+      case 'progress':
+        dom = this.progressDom?.(this.props.dataList as IProgress[])
+        break
+      default:
+        break
+    }
+    return dom
+  }
+
+  render() {
     return (
       <div>
-        {
-          showType === 'square'
-            ? this.squareDom?.(dataList as ISquare[])
-            : <CapsuleChart
-              config={ dataList }
-              style={{ width: '300px', height: '170px' }}
-            />
-        }
+        { this.renderDom?.() }
       </div>
     )
   }
@@ -62,7 +100,8 @@ interface IPageTwoProps extends RouteComponentProps {
 
 interface IPageTwoState {
   squareList: ISquare[],
-  capsuleList: ICapsule
+  capsuleList: ICapsule,
+  progressList: IProgress[]
 }
 
 class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
@@ -71,7 +110,8 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
 
   state = {
     squareList: [],
-    capsuleList: {}
+    capsuleList: {},
+    progressList: []
   }
 
   componentDidMount() {
@@ -85,7 +125,8 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
     addressRank<IAddressRank>().then(res => {
       this.setState({
         squareList: res.square,
-        capsuleList: this.capsuleDataFormat(res.capsule)
+        capsuleList: this.capsuleDataFormat(res.capsule),
+        progressList: res.progress
       })
     })
   }
@@ -113,6 +154,31 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
               </div>
             </div>
           </BorderBox7>
+
+          <BorderBox7 className='one_ranking_b7' style={{ height: 220, width: 550, marginTop: 20 }}>
+            <p>停留时长分布</p>
+            <div className='dispaly'>
+              <div>
+                <SerialSortr dataList={ this.state.progressList } showType='progress' />
+              </div>
+              <div className='ml-3'>
+                <SerialSortr dataList={ this.state.progressList } showType='progress' />
+              </div>
+            </div>
+          </BorderBox7>
+
+          <BorderBox7 className='one_ranking_b7' style={{ height: 220, width: 550, marginTop: 20 }}>
+            <p>游客分布排行</p>
+            <div className='dispaly'>
+              <div>
+                <SerialSortr dataList={ this.state.squareList } showType='square' />
+              </div>
+              <div className='ml-3'>
+                <SerialSortr dataList={ this.state.capsuleList } showType='capsule' />
+              </div>
+            </div>
+          </BorderBox7>
+
         </div>
         <div style={{ width: '50%' }}>2</div>
         <BorderBox7 className='one_ranking_b7' style={{ height: 700, width: 550 }}>
