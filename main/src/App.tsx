@@ -7,12 +7,15 @@ import { registerMicroApps, start } from 'qiankun'
 import { echartMap } from './api/echartApi'
 import { IEchartMapData } from './common/model/ICommon'
 import { connect } from 'react-redux'
-import { ILoadingState, IOptions } from './store/reducers/loadingStateRedc'
+import { ILoadingState } from './store/reducers/loadingStateRedc'
 import { ICombinedState } from './store/reducers'
+import { InterUser } from './store/model/IUser'
+interface IAppProps {
+  loadingStore: ILoadingState,
+  user: InterUser
+}
 
-class App extends React.Component<{
-  loadingState: IOptions
-}, {
+class App extends React.PureComponent<IAppProps, {
   echartMapData: IEchartMapData
 }> {
   state = {
@@ -38,15 +41,20 @@ class App extends React.Component<{
   }
 
   render() {
-    const { isShowLoading, msg } = this.props.loadingState
+    const { isShowLoading, msg } = this.props.loadingStore.loadingState
+
     return (
       <div className='App'>
         <FullScreenContainer style={{ background: ' radial-gradient(ellipse closest-side, #125886, #000e25)' }}>
           { isShowLoading ? <Loading>{ msg }</Loading> : null }
-          <HeaderTop
-            headerTitle='大屏公用模板'
-            currentTime={ new Date().getTime() }
-          />
+          {
+            this.props.user.token && (
+              <HeaderTop
+                headerTitle='大屏公用模板'
+                currentTime={ new Date().getTime() }
+              />
+            )
+          }
           <RouterLink />
         </FullScreenContainer>
       </div>
@@ -54,7 +62,7 @@ class App extends React.Component<{
   }
 }
 
-const mapStateToProps = (state: ICombinedState): ILoadingState => state.loadingStore
+const mapStateToProps = (state: ICombinedState): ICombinedState => state
 export default connect(
   mapStateToProps,
   {}

@@ -114,21 +114,23 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
     progressList: []
   }
 
-  componentDidMount() {
-    echartGraph<Buffer>().then(res => {
+  async componentDidMount() {
+    this.props.setLoadingState({ msg: '正在加载', isShowLoading: true })
+    await echartGraph<Buffer>().then(res => {
       const parser = new xml2js.Parser({ trim: true, explicitArray: true })
       parser.parseString(res, (_err: any, data: any) => {
         this.context.initEchart('graph', this.context.graphOptionsFormat(data))
       })
-    })
+    }).catch(() => this.closeLoadingShow())
 
-    addressRank<IAddressRank>().then(res => {
+    await addressRank<IAddressRank>().then(res => {
       this.setState({
         squareList: res.square,
         capsuleList: this.capsuleDataFormat(res.capsule),
         progressList: res.progress
       })
-    })
+      this.closeLoadingShow()
+    }).catch(() => this.closeLoadingShow())
   }
 
   capsuleDataFormat(capsule: IScrollRankingBoardData[]): ICapsule {

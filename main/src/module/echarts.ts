@@ -18,13 +18,6 @@ import { ScatterSeriesOption } from 'echarts/lib/chart/scatter/ScatterSeries'
 import { IEcharts, ILineSeries, IScatterSeries } from '../pages/pageOne/model'
 import { ILinks, ICategories, INodes } from '../common/model/IGrah'
 
-// enum LineType {
-//   LINE = 1 << 1,
-//   LINE_AND_BAR = 1 << 2,
-//   BAR = 1 << 3,
-//   SCATTER = 1 << 4,
-// }
-
 export interface InterInitEchartContxt {
   initEchart: (id: string, type: EChartsFullOption) => void
   getDocumentElementId: (id: string) => HTMLElement

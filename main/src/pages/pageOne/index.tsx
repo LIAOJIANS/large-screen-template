@@ -210,8 +210,6 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
   }
 }
 
-// const mapStateToProps = (state: ICombinedState): ILoadingState => ({ loadingState: state.loadingStore.loadingState })
-
 const mapStateToProps = (state: ICombinedState): ILoadingState => state.loadingStore
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   setLoadingState: (loadingInfo: IOptions) => dispatch({ type: LOADING_STATE, payload: loadingInfo })

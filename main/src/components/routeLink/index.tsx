@@ -4,14 +4,19 @@ import { ASSETS_MENUS } from '../../module/routerLink'
 import { IMenuItem } from '../../common/model/IMenuItem'
 import './routeLink.scss'
 import { EchartContext, InitEchartContext, InterInitEchartContxt } from '../../module/echarts'
+import { connect } from 'react-redux'
+import { InterUser } from '../../store/model/IUser'
+import { ICombinedState } from '../../store/reducers'
 
-interface IRouterProps {}
+interface IRouterProps {
+  token: string
+}
 
 interface IRouterState {
   menus?: IMenuItem[]
 }
 
-export default class RouterLink extends React.Component<IRouterProps, IRouterState> {
+class RouterLink extends React.Component<IRouterProps, IRouterState> {
   state: IRouterState = {}
 
   componentDidMount() {
@@ -25,7 +30,7 @@ export default class RouterLink extends React.Component<IRouterProps, IRouterSta
     return (
       <div className='nav dispaly-content-center mt-1'>
         {
-          menus?.map(i => <NavLink key={ i.path } to={ i.path } className='nav-item' activeClassName='nav-item-active'>{ i.title }</NavLink>)
+          menus?.map(i => i.isShowTitle && <NavLink key={ i.path } to={ i.path } className='nav-item' activeClassName='nav-item-active'>{ i.title }</NavLink>)
         }
       </div>
     )
@@ -37,14 +42,33 @@ export default class RouterLink extends React.Component<IRouterProps, IRouterSta
       <div>
         <InitEchartContext.Provider value={ echartContext } >
           <BrowserRouter>
-            { this.routerList() }
+            { this.props.token && this.routerList() }
             <Switch>
-              <Route path='/' exact render={() => <Redirect to='/page-one' />} />
               {
                 this.state.menus?.map(i => (
-                  <Route path={ i.path } exact={ i.exact } render={ i.render } key={ i.path } />
+                  <Route path={ i.path } exact={ i.exact } render={i.render} key={ i.path } />
                 ))
               }
+              <Route
+                path='*'
+                exact
+                render={props => {
+                  const toPath = props.match.url
+                  const history = props.history
+
+                  if ((this.props.token && toPath === '/login')) {
+                    history.goBack()
+                    return null
+                  }
+
+                  if (toPath === '/' || this.state.menus?.some(c => toPath !== c.path)) {
+                    history.replace('/page-one')
+                    return null
+                  }
+
+                  return this.props.token ? <Redirect to={ props.match.url } /> : <Redirect to='/login' />
+                }}
+              />
             </Switch>
           </BrowserRouter>
         </InitEchartContext.Provider>
@@ -52,3 +76,10 @@ export default class RouterLink extends React.Component<IRouterProps, IRouterSta
     )
   }
 }
+
+const mapStateToProps = (state: ICombinedState): InterUser => state.user
+
+export default connect(
+  mapStateToProps,
+  {}
+)(RouterLink)
