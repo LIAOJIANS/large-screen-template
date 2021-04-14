@@ -1,15 +1,21 @@
 import React from 'react'
-import { BrowserRouter, Switch, Route, Redirect, NavLink } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect, NavLink, RouteComponentProps } from 'react-router-dom'
 import { ASSETS_MENUS } from '../../module/routerLink'
 import { IMenuItem } from '../../common/model/IMenuItem'
 import './routeLink.scss'
 import { EchartContext, InitEchartContext, InterInitEchartContxt } from '../../module/echarts'
 import { connect } from 'react-redux'
-import { InterUser } from '../../store/model/IUser'
+import { InterUser, InterUserInfo } from '../../store/model/IUser'
 import { ICombinedState } from '../../store/reducers'
+import Cookie from 'js-cookie'
+import { Dispatch } from 'redux'
+import { SET_TOKEN, SET_USERINFO } from '../../store/activeTypes'
+import { getUserInfo } from '../../api/userApi'
 
 interface IRouterProps {
   token: string
+  setToken: (token: string) => void
+  setUserInfo: (userInfo: InterUserInfo) => void
 }
 
 interface IRouterState {
@@ -55,13 +61,31 @@ class RouterLink extends React.Component<IRouterProps, IRouterState> {
                 render={props => {
                   const toPath = props.match.url
                   const history = props.history
+                  const token = Cookie.get('USER_TOKEN')
+                  if (
+                    token &&
+                    !this.props.token
+                  ) {
+                    this.props.setToken(token as string)
+                    // getUserInfo<InterUserInfo>().then(res => {
+                    //   this.props.setUserInfo(res)
+                    // })
+                  }
 
-                  if ((this.props.token && toPath === '/login')) {
+                  console.log(this.props.token)
+
+                  if (
+                    this.props.token &&
+                    toPath === '/login'
+                  ) {
                     history.goBack()
                     return null
                   }
 
-                  if (toPath === '/' || this.state.menus?.some(c => toPath !== c.path)) {
+                  if (
+                    toPath === '/' ||
+                    this.state.menus?.some(c => toPath !== c.path)
+                  ) {
                     history.replace('/page-one')
                     return null
                   }
@@ -79,7 +103,12 @@ class RouterLink extends React.Component<IRouterProps, IRouterState> {
 
 const mapStateToProps = (state: ICombinedState): InterUser => state.user
 
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setToken: (token: string) => dispatch({ type: SET_TOKEN, token }),
+  setUserInfo: (userInfo: InterUserInfo) => dispatch({ type: SET_USERINFO, userInfo })
+})
+
 export default connect(
   mapStateToProps,
-  {}
+  mapDispatchToProps
 )(RouterLink)

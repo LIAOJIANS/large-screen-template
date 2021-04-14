@@ -11,7 +11,7 @@ import {
 
 const initialState: InterUser = {
   userInfo: {},
-  token: ''
+  token: '2121'
 }
 
 export default (state: InterUser = initialState, action: AnyAction) => {
@@ -20,11 +20,11 @@ export default (state: InterUser = initialState, action: AnyAction) => {
       return { ...state, token: action.token }
     case SET_USERINFO:
       // eslint-disable-next-line no-case-declarations
-      const token = Cookie.get('TOKEN_PRE')
+      const token = Cookie.get('USER_TOKEN') as string
       // eslint-disable-next-line no-case-declarations
       const obj = {
         userInfo: { ...state.userInfo, ...action.userInfo },
-        [!state.token ? 'token' : '']: token
+        token
       }
       return { ...state, ...obj }
     default:

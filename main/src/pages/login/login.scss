@@ -1,0 +1,49 @@
+
+
+.login {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: rgba(0, 14, 37, .2);
+  border: 2px solid rgba(18, 88, 134, .7);
+  border-radius: 20px;
+
+  &_title {
+    padding: 10px 0;
+
+    border-bottom: 1px solid rgba(18, 88, 134, .7);
+  }
+
+  &_body {
+    padding: 0 40px 20px;
+
+    input {
+      width: 350px;
+      padding: 3px 5px;
+
+      background: rgba(0, 14, 37, .4);
+
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 5px 40px;
+
+      background: rgba(18, 88, 134, .7);
+      border: none;
+      border-radius: 10px;
+
+      cursor: pointer;
+      outline: none;
+    }
+  }
+
+  &_form_title {
+    margin: 10px 0;
+
+    text-align: left;
+  }
+}

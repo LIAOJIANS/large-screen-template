@@ -39,7 +39,8 @@ module.exports = [
     url: '/user/info',
     type: 'get',
     response: config => {
-      const { token } = config.query
+      console.log(config.headers.token)
+      const { token } = config.headers
       const info = users[token]
 
       if (!info) {
@@ -50,7 +51,7 @@ module.exports = [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: info
       }
     }
