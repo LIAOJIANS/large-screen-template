@@ -4,12 +4,15 @@ import './header.scss'
 import {
   parseTime
 } from '../../utils/tool'
+import { InterUserInfo } from '../../store/model/IUser'
 
 interface IHeaderTopState {}
 
 interface IHeaderTopProps {
-  currentTime: Date | string | number,
+  currentTime: Date | string | number
   headerTitle: string
+  userInfo: InterUserInfo
+  logout: () => void
 }
 
 export default class HeaderTop extends React.Component<IHeaderTopProps, IHeaderTopState> {
@@ -17,8 +20,9 @@ export default class HeaderTop extends React.Component<IHeaderTopProps, IHeaderT
     return (
       <div className='header-top'>
         <div className='app-header dispaly-center'>
-          <p style={{ width: '20%', paddingLeft: '5%' }}>
-            { parseTime(this.props.currentTime) }<i className='pl-1'>图标1</i>
+          <p style={{ width: '20%' }}>
+            { parseTime(this.props.currentTime) }<i className='pl-1'>欢迎您，{ this.props.userInfo.name }</i>
+            <span style={{ color: 'red', fontSize: '14px', cursor: 'pointer', paddingLeft: '5px' }} onClick={() => this.props.logout()}>退出</span>
           </p>
           <div className='title dispaly-content-center'>
             <div>

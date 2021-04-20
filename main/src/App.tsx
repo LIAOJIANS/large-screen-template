@@ -10,9 +10,13 @@ import { connect } from 'react-redux'
 import { ILoadingState } from './store/reducers/loadingStateRedc'
 import { ICombinedState } from './store/reducers'
 import { InterUser } from './store/model/IUser'
+import { Dispatch } from 'redux'
+import { LOGOUT } from './store/activeTypes'
+
 interface IAppProps {
   loadingStore: ILoadingState,
-  user: InterUser
+  user: InterUser,
+  logout: () => void
 }
 
 class App extends React.PureComponent<IAppProps, {
@@ -52,6 +56,8 @@ class App extends React.PureComponent<IAppProps, {
               <HeaderTop
                 headerTitle='大屏公用模板'
                 currentTime={ new Date().getTime() }
+                userInfo={this.props.user.userInfo}
+                logout={() => this.props.logout()}
               />
             )
           }
@@ -63,7 +69,11 @@ class App extends React.PureComponent<IAppProps, {
 }
 
 const mapStateToProps = (state: ICombinedState): ICombinedState => state
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  logout: () => dispatch({ type: LOGOUT })
+})
+
 export default connect(
   mapStateToProps,
-  {}
+  mapDispatchToProps
 )(App)

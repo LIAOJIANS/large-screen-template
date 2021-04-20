@@ -1,9 +1,11 @@
 import { AnyAction } from 'redux'
+import { createBrowserHistory } from 'history'
 
 import Cookie from 'js-cookie'
 import {
   SET_TOKEN,
-  SET_USERINFO
+  SET_USERINFO,
+  LOGOUT
 } from '../activeTypes'
 import {
   InterUser
@@ -11,7 +13,7 @@ import {
 
 const initialState: InterUser = {
   userInfo: {},
-  token: '2121'
+  token: ''
 }
 
 export default (state: InterUser = initialState, action: AnyAction) => {
@@ -27,6 +29,10 @@ export default (state: InterUser = initialState, action: AnyAction) => {
         token
       }
       return { ...state, ...obj }
+    case LOGOUT:
+      Cookie.remove('USER_TOKEN')
+      createBrowserHistory().replace('/login')
+      return { ...state, token: '' }
     default:
       return state
   }

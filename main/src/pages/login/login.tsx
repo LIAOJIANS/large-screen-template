@@ -41,7 +41,7 @@ class Login extends AbstractComponent<InterLoginProps, {
       this.closeLoadingShow()
       this.setToken(res.token)
       this.props.setToken(res.token)
-      this.props.history.replace('/')
+      this.props.history.replace('/page-one')
     }).catch(e => this.closeLoadingShow())
   }
 
@@ -58,7 +58,7 @@ class Login extends AbstractComponent<InterLoginProps, {
 
           <div>
             <p className='login_form_title'>密码：</p>
-            <input type='password' onChange={ e => this.setState({ password: e.target.value }) } />
+            <input type='password' onChange={ e => this.setState({ password: e.target.value }) } onKeyDown={e => e.key === 'Enter' && this.subLoginForm() } />
           </div>
 
           <button onClick={ () => this.subLoginForm() }>登录</button>
