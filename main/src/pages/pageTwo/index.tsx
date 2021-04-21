@@ -5,7 +5,8 @@ import { Dispatch } from 'redux'
 import xml2js from 'xml2js'
 import {
   BorderBox7,
-  CapsuleChart
+  CapsuleChart,
+  ScrollBoard
 } from '@jiaminghi/data-view-react'
 
 import './pageTwo.scss'
@@ -13,8 +14,11 @@ import { AbstractComponent } from '../../module/AbstractComponent'
 import { LOADING_STATE } from '../../store/activeTypes'
 import { ICombinedState } from '../../store/reducers'
 import { ILoadingState, IOptions } from '../../store/reducers/loadingStateRedc'
+
+import { ITableConfig } from '../../common/model/ICommonTable'
 import {
-  addressRank
+  addressRank,
+  tableTow
 } from '../../api/pageTwoApi'
 import { echartGraph } from '../../api/echartApi'
 import { InitEchartContext, InterInitEchartContxt } from '../../module/echarts'
@@ -101,7 +105,8 @@ interface IPageTwoProps extends RouteComponentProps {
 interface IPageTwoState {
   squareList: ISquare[],
   capsuleList: ICapsule,
-  progressList: IProgress[]
+  progressList: IProgress[],
+  tableList: any[]
 }
 
 class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
@@ -111,7 +116,8 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
   state = {
     squareList: [],
     capsuleList: {},
-    progressList: []
+    progressList: [],
+    tableList: []
   }
 
   async componentDidMount() {
@@ -122,6 +128,12 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
         this.context.initEchart('graph', this.context.graphOptionsFormat(data))
       })
     }).catch(() => this.closeLoadingShow())
+
+    await tableTow<[]>().then(res => {
+      this.setState({
+        tableList: res
+      })
+    })
 
     await addressRank<IAddressRank>().then(res => {
       this.setState({
@@ -141,6 +153,20 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
   }
 
   render() {
+    const tableConfig:ITableConfig = {
+      header: ['列1', '列2', '列3', '列4'],
+      data: this.tableOneFormat(this.state.tableList as []),
+      index: true,
+      indexHeader: '序号',
+      evenRowBGC: '#10213f',
+      rowNum: 10,
+      headerBGC: '#20314c',
+      columnWidth: [80, 140, 140, 140, 140],
+      align: ['center', 'center', 'center', 'center', 'center'],
+      oddRowBGC: 'transparent',
+      carousel: 'page'
+    }
+
     return (
       <div className='page_two dispaly'>
         <div className='the_one_ranking'>
@@ -182,10 +208,12 @@ class PageTwo extends AbstractComponent<IPageTwoProps, IPageTwoState> {
           </BorderBox7>
 
         </div>
-        <div style={{ width: '50%' }}>2</div>
+        <div style={{ width: '50%' }}>
+          <div id='graph' style={{ height: 700 }} />
+        </div>
         <BorderBox7 className='one_ranking_b7' style={{ height: 700, width: 550 }}>
-          <p style={{ marginBottom: 10 }}>景区关联图</p>
-          <div id='graph' style={{ height: 300 }} />
+          <p style={{ marginBottom: 10, marginTop: 10, marginLeft: 10 }}>路线热点Top10</p>
+          <ScrollBoard config={tableConfig} style={{ width: '500px', height: '650px' }} />
         </BorderBox7>
       </div>
     )

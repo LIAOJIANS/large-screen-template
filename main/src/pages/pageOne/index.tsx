@@ -32,6 +32,7 @@ interface IPageOneProps extends RouteComponentProps {
   loadingState: IOptions
   [key:string]:any
 }
+
 interface IPageOneState {
   tableDataOne: [],
   tableOneHeader: string[],
@@ -104,25 +105,10 @@ class PageOne extends AbstractComponent<IPageOneProps, IPageOneState> {
     )
   }
 
-  tableOneFormat(data: []) {
-    let newData: Array<Array<any>> = []
-    data.forEach((c, i) => {
-      const newDataChild: [] = []
-      Object.keys(c).forEach(r => {
-        newDataChild.push(c[r])
-        newData = [
-          ...newData,
-          newDataChild
-        ]
-      })
-    })
-    return newData
-  }
-
   searchTableData() {
     const { tableDataOne, searchVal } = this.state
     const curTableData = this.tableOneFormat(tableDataOne)
-    return searchVal ? curTableData.map(i => (i.filter(c => c.indexOf(searchVal) !== -1))) : curTableData
+    return searchVal ? curTableData.map((i: any[]) => (i.filter((c: string | string[]) => c.indexOf(searchVal) !== -1))) : curTableData
   }
 
   selectOptions() {

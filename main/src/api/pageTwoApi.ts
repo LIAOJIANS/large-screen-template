@@ -6,3 +6,10 @@ export function addressRank<T>(): Promise<T> {
     method: 'get'
   }) as Promise<T>
 }
+
+export function tableTow<T>(): Promise<T> {
+  return request({
+    url: '/table_data_two',
+    method: 'get'
+  }) as Promise<T>
+}

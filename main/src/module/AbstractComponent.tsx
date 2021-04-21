@@ -15,6 +15,8 @@ export interface InterAbstractComponent {
 
   setToken?: (token: string) => void
   getToken?: () => string
+
+  tableOneFormat?: (data: []) => []
 }
 
 export class AbstractComponent<
@@ -43,5 +45,20 @@ export class AbstractComponent<
 
   removeToken() {
     return Cookie.remove(this.USER_TOKEN)
+  }
+
+  tableOneFormat(data: []) {
+    let newData: Array<Array<any>> = []
+    data.forEach((c, i) => {
+      const newDataChild: [] = []
+      Object.keys(c).forEach(r => {
+        newDataChild.push(c[r])
+        newData = [
+          ...newData,
+          newDataChild
+        ]
+      })
+    })
+    return newData
   }
 }

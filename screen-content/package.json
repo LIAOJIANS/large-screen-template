@@ -1,6 +1,7 @@
 {
   "name": "screen-content",
-  "version": "0.1.0",
+  "version": "1.1.0",
+  "author": "LIAOJIANS",
   "private": true,
   "dependencies": {
     "@jiaminghi/data-view-react": "^1.2.5",
