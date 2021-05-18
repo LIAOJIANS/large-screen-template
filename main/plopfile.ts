@@ -1,6 +1,6 @@
 const createPageTemplate = require('./src/.setting/plop/page.ts')
-const createApiTemplate = require('./src/.setting/plop/api')
-const createComponentTemplate = require('./src/.setting/plop/component')
+const createApiTemplate = require('./src/.setting/plop/api.ts')
+const createComponentTemplate = require('./src/.setting/plop/component.ts')
 
 function cli(plop) {
   plop.setGenerator('page', createPageTemplate) // 创建页面模板
