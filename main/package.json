@@ -16,6 +16,7 @@
     "classnames": "^2.2.6",
     "echarts": "^5.0.0",
     "echarts-for-react": "^2.0.16",
+    "antd": "^4.9.4",
     "js-cookie": "^2.2.1",
     "mockjs": "^1.1.0",
     "qiankun": "^2.0.22",

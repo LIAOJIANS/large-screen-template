@@ -47,3 +47,15 @@
   npm start
 
 ```
+
+
+### 界面
+
+1.登录页
+![Image text](main/image/README/1628669595952.png)
+
+2.首页1
+![Image text](main/image/README/1628669744066.png)
+
+2.首页2
+![Image text](main/image/README/1628669820216.png)

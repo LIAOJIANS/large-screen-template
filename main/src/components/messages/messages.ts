@@ -8,12 +8,12 @@ export enum enumMessageType {
 }
 
 export interface InterMessagesProps {
-  title: string,
-  type: enumMessageType,
-  duration?: number,
-  showClose?: boolean,
-  center?: boolean,
-  offset?: number
+  title: string, // 提示内容
+  type: enumMessageType, // 类型（只允许传枚举中的一种）
+  duration?: number, // 间隔时间
+  showClose?: boolean, // 是否显示关闭icon
+  center?: boolean, // 是否剧中
+  offset?: number // 偏移量
 }
 
 export default class Messages {
