@@ -9,7 +9,7 @@ const mockDir = path.join(process.cwd(), 'mock')
 
 const responseFake = (url, type, respond) => {
   return { 
-    url: new RegExp(`${process.env.VUE_APP_BASE_API}${url}`),
+    url: new RegExp(`${process.env.REACT_APP_BASE_URL}${url}`),
     type: type || 'get',
     response(req, res) {
       res.status(200)

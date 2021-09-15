@@ -26,8 +26,8 @@ class Login extends AbstractComponent<InterLoginProps, {
   password: string
 }> {
   state = {
-    username: '',
-    password: ''
+    username: 'admin',
+    password: '123456'
   }
 
   subLoginForm() {
@@ -53,12 +53,20 @@ class Login extends AbstractComponent<InterLoginProps, {
 
           <div>
             <p className='login_form_title'>用户名：</p>
-            <input type='text' onChange={ e => this.setState({ username: e.target.value }) }/>
+            <input
+              type='text'
+              value={ this.state.username }
+              onChange={ e => this.setState({ username: e.target.value }) }/>
           </div>
 
           <div>
             <p className='login_form_title'>密码：</p>
-            <input type='password' onChange={ e => this.setState({ password: e.target.value }) } onKeyDown={e => e.key === 'Enter' && this.subLoginForm() } />
+            <input
+              type='password'
+              value={ this.state.password }
+              onChange={ e => this.setState({ password: e.target.value }) }
+              onKeyDown={e => e.key === 'Enter' && this.subLoginForm() }
+            />
           </div>
 
           <button onClick={ () => this.subLoginForm() }>登录</button>

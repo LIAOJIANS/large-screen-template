@@ -33,7 +33,7 @@ class App extends React.PureComponent<IAppProps, {
     registerMicroApps([
       {
         name: 'screen-content', // 微应用的名称，微应用之间必须确保唯一(微应用中package.json中的name)
-        entry: 'http://localhost:20000', // 微应用的entry地址
+        entry: process.env.REACT_APP_BASE_QIANKUN_UIL, // 微应用的entry地址
         container: '#large-screen-content', // 微应用的容器节点的选择器
         activeRule: '/page-one', // 微应用 的激活规则
         props: {

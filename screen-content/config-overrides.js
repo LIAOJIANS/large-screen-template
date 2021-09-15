@@ -1,11 +1,17 @@
   
 const { name } = require('./package.json');
 
+// const {
+//   setWebpackPublicPath
+// } = require('customize-cra')
+
 module.exports = {
   webpack: function override(config, env) {
     config.output.library = `${name}-[name]`;
     config.output.libraryTarget = 'umd';
     config.output.jsonpFunction = `webpackJsonp_${name}`;
+    // config.override.p
+    // setWebpackPublicPath('/screen-content')
     return config;
   },
   devServer: (configFunction) => {

@@ -4,6 +4,7 @@ const path = require('path')
 const mockServer = () => {
   return require('./mock/index.js')
 }
+
 module.exports = {
   devServer: (configFunction) => {
     return function(proxy, allowedHost) {
@@ -19,7 +20,7 @@ module.exports = {
       config.headers = {
         'Access-Control-Allow-Origin': '*'
       }
-      // Return your customised Webpack Development Server config.
+
       return config
     }
   },

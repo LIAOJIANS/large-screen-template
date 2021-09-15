@@ -89,7 +89,7 @@ function request<T>(options: IRequest, cb?: IRequestCallback<any>) {
   } else {
     return new Axios<IRequest, IResult>(
       {
-        baseURL: '/dev-api',
+        baseURL: process.env.REACT_APP_BASE_URL,
         timeout: 100000
       }
     ).request<T>(options)
