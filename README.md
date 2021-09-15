@@ -1,5 +1,8 @@
 ## React + tsx + qiankun + DataV 实现可视化大屏模板
 
+
+### 在线预览地址：[http://lscreen.liaojs.cn/](http://lscreen.liaojs.cn/)
+
 ### 需要掌握知识：
 1. React + tsx 全家桶
 2. [qiankun](https://qiankun.umijs.org/api)
