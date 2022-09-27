@@ -132,15 +132,6 @@ class RouterGuard extends React.Component<RouterGuardProps, {}> {
       return <Route path={ toPath } exact={ component.exact } render={component.render} key={ component.path } />
     }
 
-    // 登录了 并且跳往登录页，则返回上一级
-    if (
-      reduxToken &&
-      toPath === '/login'
-    ) {
-      history.goBack()
-      return null
-    }
-
     // 重定向首页
     if (
       toPath === '/' ||
@@ -149,9 +140,18 @@ class RouterGuard extends React.Component<RouterGuardProps, {}> {
       return <Redirect to='/page-one' />
     }
 
+    if (
+      reduxToken &&
+      toPath === '/login'
+    ) {
+      return <Redirect to='/page-one' />
+    }
+
     // return this.props.token ? <Redirect to={ props.match.url } /> : <Redirect to='/login' />
 
     if (reduxToken) { // 渲染加载路由
+      // 登录了 并且跳往登录页，则返回上一级
+
       return <Route path={ component.path } exact={ component.exact } render={component.render} key={ component.path } />
     } else {
       return <Redirect to='/login' />
